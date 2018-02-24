@@ -1,0 +1,72 @@
+div#app {
+  header {
+    ul.quick-btn-headers {
+      a {
+        color: lighten($site-maroon, 12%);
+        &:hover {
+          color: lighten($theme-colour, 7%);
+        }
+      }
+    }
+
+    &.simple-header {
+      div.logo {
+        .ui.medium.image, .ui.medium.images .image, .ui.medium.images img, .ui.medium.images svg {
+          width: 98px;
+          height: auto;
+          font-size: 1rem;
+        }
+      }
+
+      .add-listing {
+        border-color: $site-blue !important;
+        color: $site-blue !important;
+
+        &:hover {
+          color: $theme-colour !important;
+          border-color: $theme-colour !important;
+          text-decoration: none;
+          background: none;
+        }
+      }
+
+      ul.quick-btn-headers {
+        display: none;
+      }
+      div.header-menus {
+        nav {
+          ul {
+            li {
+              a {
+                color: $site-blue;
+              }
+            }
+          }
+        }
+      }
+    }
+    div.header-menus {
+      nav {
+        ul {
+          li {
+            a {
+              color: #ffffff;
+              &:hover {
+                color: lighten($theme-colour, 7%);
+              }
+            }
+          }
+        }
+      }
+      .add-listing {
+        border-color: $theme-colour;
+        color: white;
+
+        &:hover {
+          color: $theme-colour;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
