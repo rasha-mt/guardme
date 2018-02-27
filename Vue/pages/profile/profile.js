@@ -23,11 +23,12 @@ new window.App({
                 phone_number: '',
                 dob: '',
                 address: '',
-                password: ''
+                password: '',
+                profilePicture: '/assets/img/profile-default.png'
             },
             password: null,
             alertMessage: '',
-            profilePicture: '/assets/img/profile-default.png',
+            selectedFile: null,
             formErrors: new Errors()
         }
     },
@@ -42,20 +43,56 @@ new window.App({
                 this.profile.phone_number = response.data.phone_number;
                 this.profile.dob = response.data.dob;
                 this.profile.address = response.data.address;
-                    //console.log('user profile', this.profile);
+                    if (response.data.profile_picture) {
+                        this.profile.profilePicture = response.data.profile_picture;
+                    }
         });
         },
         onProfileSubmit : function () {
             this.profile.password = this.password;
             window.axios.post(`/api/account/profile/save-profile-data`, this.profile)
                 .then((response) => {
+                    console.log(response.data);
                     this.password = '';
-                    if (!response.data.errors.length) {
+                    if (response.data.errors.length == 0) {
+                        this.formErrors.record(response.data.errors);
                         this.alertMessage = 'Data has been updated Successfully';
                     } else {
                         this.formErrors.record(response.data.errors);
                     }
                 });
+        },
+        onFileSelected(event) {
+            console.log(event);
+            this.selectedFile = event.target.files[0];
+            this.previewThumbnail(event);
+        },
+        onUpload() {
+            const fd = new FormData();
+            fd.append('profile_picture', this.selectedFile, this.selectedFile.name);
+            axios.post('/api/account/profile/upload-profile-picture', fd, {
+                onUploadProgress: uploadEvent => {
+                    console.log('upload Perogress: ' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%')
+                }
+            })
+                .then((response) => {
+                    console.log(response);
+                })
+
+        },
+        previewThumbnail: function(event) {
+            var input = event.target;
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var vm = this;
+
+                reader.onload = function(e) {
+                    vm.profile.profilePicture = e.target.result;
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
         }
     },
     components : {

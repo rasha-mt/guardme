@@ -3,6 +3,8 @@
     .profile-picture {
         border-radius: 4px;
         margin-bottom: 5px;
+        width: 160px;
+        height: 170px;
     }
     .select-image {
         color: #fff;
@@ -34,12 +36,19 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-2">
-                            <img class="profile-picture" :src="profilePicture" alt="">
-                            <input type="file" style="display: none;">
-                            <div class="select-image">
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img class="profile-picture" :src="profile.profilePicture" alt="">
+                            <input type="file" ref="fileInput" @change="onFileSelected" style="display: none;">
+                            <div class="select-image" @click="$refs.fileInput.click()">
                                 Choose Profile Picture
                             </div>
-                            <button class="btn btn-primary upload-btn">Upload</button>
+                            <button class="btn btn-primary upload-btn" @click="onUpload">Upload</button>
                         </div>
                     </div>
                     <form action="{{ route('profile.save') }}" method="POST" enctype="multipart/form-data" @submit.prevent="onProfileSubmit">
@@ -65,7 +74,7 @@
                             <div>
                                 <input class="form-control" type="text" name="dob" placeholder="mm-dd-yyyy" v-model="profile.dob"/>
                             </div>
-                            <span class="text-danger" v-text="formErrors.get('dob')"></span>
+                            <span class="text-danger" v-if="formErrors.get('dob')" v-text="formErrors.get('dob')"></span>
                         </div>
 
                         <div class="form-group">

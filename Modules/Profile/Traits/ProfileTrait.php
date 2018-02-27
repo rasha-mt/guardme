@@ -3,20 +3,10 @@
 namespace Modules\Profile\Traits;
 
 use \Modules\Users\Models\User;
-use \Modules\Account\Models\Role;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Symfony\Component\HttpFoundation\Response;
-
+use Illuminate\Support\Facades\Storage;
 trait ProfileTrait
 {
-    private $categories = [
-        'Payment Issue',
-        'Account changes',
-        'Security Badge Verification',
-        'Job Dispute',
-        'General',
-    ];
     
     private function updateProfile($request)
     {
@@ -43,21 +33,12 @@ trait ProfileTrait
 
     private function getProfile()
     {
-        /*$tickets = null;
-
-        if ($this->checkRole(['Job seeker', 'Employer'])) {
-            $user = auth()->user();
-            $tickets = $this->ticket->getBy('user_id', $user->id);
-        }
-
-        if ($this->checkRole(['Partner', 'Admin'])) {
-            $tickets = $this->ticket->all();
-        }
-
-        return $tickets;*/
         $profile = null;
-        //@TODO perform some validation
         $user = auth()->user();
+        if (!empty($user->profile_picture)) {
+            $url = Storage::url('profile-pictures/'. $user->profile_picture);
+            $user->profile_picture = $url;
+        }
         return $user;
         
     }

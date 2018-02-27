@@ -8,10 +8,11 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Modules\Users\Models\User;
 use Modules\Profile\Traits\ProfileTrait;
+use Modules\Profile\Traits\UploadTrait;
 
 class ProfileController extends Controller
 {
-    use ProfileTrait;
+    use ProfileTrait, UploadTrait;
 
     public function getUserProfile() {
         return $this->getProfile();
@@ -22,6 +23,13 @@ class ProfileController extends Controller
         return response()->json([
             'status' => $errors ? 500 : 200,
             'errors' => $errors,
+        ]);
+    }
+    public function uploadProfilePicture(Request $request) {
+        $errors = $this->saveUploadedProfilePicture($request);
+        return response()->json([
+           'status' => $errors ? 500 : 200,
+            'errors' => $errors
         ]);
     }
 }

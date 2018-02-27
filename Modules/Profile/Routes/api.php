@@ -16,5 +16,6 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => '/account/profile', 'namespace' => 'Api', 'middleware' => 'auth:api'], function() {
     Route::post('/save-profile-data', 'ProfileController@save')->name('profile.save');
     Route::get('/get-user-profile', 'ProfileController@getUserProfile')->name('profile.get');
+    Route::post('/upload-profile-picture', 'ProfileController@uploadProfilePicture')->name('profile.upload.picture');
 });
 
