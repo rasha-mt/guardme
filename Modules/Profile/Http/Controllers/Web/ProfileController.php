@@ -16,7 +16,9 @@ class ProfileController extends Controller
     {
         return $this->getUserProfilePage();
     }
-
+    public function verification() {
+        return view('profile::profile.verification');
+    }
     private function getUserProfilePage()
     {
         /**

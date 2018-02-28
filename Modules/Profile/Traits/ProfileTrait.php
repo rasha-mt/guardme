@@ -5,6 +5,7 @@ namespace Modules\Profile\Traits;
 use \Modules\Users\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 trait ProfileTrait
 {
     
@@ -33,11 +34,30 @@ trait ProfileTrait
 
     private function getProfile()
     {
-        $profile = null;
-        $user = auth()->user();
-        if (!empty($user->profile_picture)) {
-            $url = Storage::url('profile-pictures/'. $user->profile_picture);
-            $user->profile_picture = $url;
+        $user = null;
+        $user_id = auth()->user()->id;
+        if ($user_id) {
+            // get user data
+            $user =  DB::table('users')
+                ->select(
+                    'users.id',
+                    'users.username',
+                    'users.email',
+                    'users.api_token',
+                    'users.dob',
+                    'users.address',
+                    'users.phone_number',
+                    'users.profile_picture',
+                    'roles.name as role_name'
+                )
+                ->where('users.id', $user_id)
+                ->join('user_roles', 'users.id', '=', 'user_roles.user_id')
+                ->join('roles', 'roles.id', '=', 'user_roles.role_id')
+                ->first();
+            if (!empty($user->profile_picture)) {
+                $url = Storage::url('profile-pictures/'. $user->profile_picture);
+                $user->profile_picture = $url;
+            }
         }
         return $user;
         

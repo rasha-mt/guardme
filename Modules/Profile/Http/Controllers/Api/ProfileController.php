@@ -9,13 +9,14 @@ use App\Http\Controllers\Controller;
 use Modules\Users\Models\User;
 use Modules\Profile\Traits\ProfileTrait;
 use Modules\Profile\Traits\UploadTrait;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProfileController extends Controller
 {
     use ProfileTrait, UploadTrait;
 
     public function getUserProfile() {
-        return $this->getProfile();
+        return response()->json($this->getProfile());
     }
 
     public function save(Request $request) {

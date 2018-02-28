@@ -37,7 +37,7 @@
                     <div class="row">
                         <div class="col-md-2">
                             <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-success" role="progressbar" :style="{width: uploadProgress }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
@@ -48,11 +48,22 @@
                             <div class="select-image" @click="$refs.fileInput.click()">
                                 Choose Profile Picture
                             </div>
-                            <button class="btn btn-primary upload-btn" @click="onUpload">Upload</button>
+                            <button v-if="showUploadBtn" class="btn btn-primary upload-btn" @click="onUpload">Upload</button>
+                        </div>
+                        <div class="col-md-10">
+                            <span class="text-danger" v-text="formErrors.get('profile_picture')"></span>
                         </div>
                     </div>
                     <form action="{{ route('profile.save') }}" method="POST" enctype="multipart/form-data" @submit.prevent="onProfileSubmit">
                         {{ csrf_field() }}
+
+                        <div class="form-group">
+                            <label class="control-label">Account Information: </label>
+                            <div>
+                                <input class="form-control" type="text" :value="profile.role_name" disabled/>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="control-label">Username: </label>
                             <div>

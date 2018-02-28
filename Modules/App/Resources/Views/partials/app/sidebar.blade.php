@@ -39,8 +39,8 @@
 
                 <ul class="nav nav-second-level">
                     <li><a href="/account/profile"><i class="fa fa-user"></i> Profile</a></li>
-                    <li><a href="/account/profile/edit"><i class="fa fa-edit"></i> Edit profile</a></li>
-                    <li><a href="/account/feedback"><i class="fa fa-reply"></i> Feedback</a></li>
+                    <li><a href="/account/profile/verification"><i class="fa fa-check"></i> Verification</a></li>
+                    {{--<li><a href="/account/feedback"><i class="fa fa-reply"></i> Feedback</a></li>--}}
                     <li><a href="/account/delete"><i class="fa fa-remove"></i> Delete Account</a></li>
                 </ul>
             </li>
